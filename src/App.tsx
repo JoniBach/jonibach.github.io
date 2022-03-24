@@ -1,11 +1,20 @@
-import Default from './pages/default/default';
+import { FC } from "react";
+import Default from "./pages/default/default";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+const AppContainer = styled(motion.div)`
+  background: #333344;
+  position: relative;
+`;
 
-function App() {
+type Props = {};
+
+const App: FC<Props> = () => {
   return (
-    <div>
+    <AppContainer>
       <Default />
-    </div>
+    </AppContainer>
   );
-}
+};
 
 export default App;
