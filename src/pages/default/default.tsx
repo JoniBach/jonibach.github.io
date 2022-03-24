@@ -122,7 +122,7 @@ function Default() {
             While i work on that however, scroll to see some fun teasers about
             me!
           </p>
-          {pos} & {newPos} & {getIndex} & {updatedPos} & {fixedPos}
+          {/* {pos} & {newPos} & {getIndex} & {updatedPos} & {fixedPos} */}
           <TextContainer>
             {data.map((d, i) => (
               <Text
