@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import { useViewportScroll } from "framer-motion";
