@@ -29,6 +29,22 @@ const Text = styled(motion.p)`
   position: absolute;
   width: 100%;
 `;
+const BarContainer = styled(motion.div)`
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  box-shadow: rgb(0, 0, 0) 1px 1px 2px 0px inset,
+    rgba(17, 17, 17, 0.3) -1px -1px 2px 0px inset;
+`;
+const Bar = styled(motion.div)`
+  background: cyan;
+  height: 100%;
+  /* box-shadow: 0 0 20px 20px cyan, 0 0 100px 60px #f0f, 0 0 140px 90px #0ff; */
+  box-shadow: #f0f 0px 3px 6px;
+`;
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -56,8 +72,9 @@ export function useWindowDimensions() {
 }
 
 function Default() {
-  const { scrollY } = useViewportScroll();
+  const { scrollY, scrollYProgress } = useViewportScroll();
   const [pos, setPos] = useState<number>(0);
+  const [prog, setProg] = useState<number>(0);
 
   const Nav = () => {
     let no = 0;
@@ -65,6 +82,11 @@ function Default() {
       // y = scroll position
       // Do Something
       setPos(y);
+    });
+    scrollYProgress.onChange((y) => {
+      // y = scroll position
+      // Do Something
+      setProg(y);
     });
 
     return no;
@@ -91,7 +113,8 @@ function Default() {
     },
     {
       label: "Fact 4",
-      description: "I have been interviewed by BBC1... What was it for?",
+      description:
+        "I have recenty been interviewed by BBC1... What was it for?",
     },
     {
       label: "Fact 5",
@@ -99,16 +122,47 @@ function Default() {
     },
   ];
 
-  // const getPosition = pos >== 300
-  const newPos = (pos % 300) - 100;
-  const updatedPos =
-    newPos > 0 && newPos < 100 ? 0 : newPos > 100 ? newPos - 100 : newPos;
-  const getIndex = Math.trunc(pos / 300);
-  const fixedPos = pos - 1 * 3 * 100;
-  const { height, width } = useWindowDimensions();
-  console.log(pos, height * data.length);
+  const portion = 100 / data.length;
+  const baseP = prog * 100;
+
+  const mod = baseP % portion;
+
+  const preBar = mod * data.length * 3 - 100;
+  const bar = preBar < 0 ? 0 : preBar > 100 ? 100 : preBar;
+
+  const translateWidth = (i: any) => {
+    const index = i;
+
+    const s2 = portion / 3;
+    const s3 = s2 * 2;
+
+    const p0 = portion * index;
+    const p1 = p0 + portion;
+    const p2 = p0 + s2;
+    const p3 = p0 + s3;
+
+    const a1 = p1 - portion;
+
+    const d1 = mod * data.length * 3;
+
+    if (baseP >= p1) {
+      return "100vw";
+    }
+    if (baseP > a1 && baseP < p2) {
+      return `${d1 - 100}vw`;
+    }
+    if (baseP > p2 && baseP < p3) {
+      return `${0}vw`;
+    }
+    if (baseP > p3 && baseP < p1) {
+      return `${d1 - 200}vw`;
+    }
+
+    return "-100vw";
+  };
+
   return (
-    <div style={{ height: `${data.length * height}px` }}>
+    <div style={{ height: `400vh` }}>
       <Container className="App">
         <Content>
           <motion.img
@@ -123,21 +177,19 @@ function Default() {
             me!
           </p>
           {/* {pos} & {newPos} & {getIndex} & {updatedPos} & {fixedPos} */}
+          {/* {baseP} & {baseP % portion} & {initPos} */}
+          {/* {bar} */}
           <TextContainer>
             {data.map((d, i) => (
               <Text
                 animate={{
-                  x: `${
-                    pos - i * 300 - 100 > 0 && pos - i * 300 - 100 < 100
-                      ? 0
-                      : pos - i * 300 - 100 > 100
-                      ? pos - i * 300 - 100 - 100
-                      : pos - i * 300 - 100
-                  }vw`,
+                  x: translateWidth(i),
                 }}
               >
                 <span>{d.label}</span>
-                <br />
+                <BarContainer>
+                  <Bar animate={{ width: `${bar}%` }} />
+                </BarContainer>
                 <span>{d.description}</span>
               </Text>
             ))}
