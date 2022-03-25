@@ -177,9 +177,7 @@ function Default() {
             While i work on that however, scroll to see some fun teasers about
             me!
           </p>
-          {/* {pos} & {newPos} & {getIndex} & {updatedPos} & {fixedPos} */}
-          {/* {baseP} & {baseP % portion} & {initPos} */}
-          {/* {bar} */}
+
           <TextContainer>
             {data.map((d, i) => (
               <Text
@@ -194,11 +192,6 @@ function Default() {
                 <span>{d.description}</span>
               </Text>
             ))}
-            {/* <Text animate={{ x: `${updatedPos}vw` }}>
-              <span>{data[getIndex].label}</span>
-              <br />
-              <span>{data[getIndex].description}</span>
-            </Text> */}
           </TextContainer>
         </Content>
       </Container>
