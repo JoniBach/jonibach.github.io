@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import logo from "./logo.svg";
 import { useViewportScroll } from "framer-motion";
 import styled from "styled-components";
@@ -112,8 +112,8 @@ function Default() {
   const preBar = mod * data.length * 3 - 100;
   const bar = preBar < 0 ? 0 : preBar > 100 ? 100 : preBar;
 
-  const spinBase = baseP % (portion * 2);
-  const spin = spinBase > portion ? portion * 2 - spinBase : spinBase;
+  // const spinBase = baseP % (portion * 2);
+  // const spin = spinBase > portion ? portion * 2 - spinBase : spinBase;
   // const finalSpin = ((spin * data.length) / 100) * 360;
 
   const pathVariants = {
