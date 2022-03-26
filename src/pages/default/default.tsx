@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import { useViewportScroll } from "framer-motion";
 import styled from "styled-components";
 import { motion } from "framer-motion";
@@ -23,12 +23,18 @@ const Content = styled(motion.div)`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  width: 100%;
 `;
 
-const TextContainer = styled(motion.div)``;
+const TextContainer = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const Text = styled(motion.p)`
   position: absolute;
   width: 100%;
+  max-width: 80vw;
 `;
 const BarContainer = styled(motion.div)`
   width: 100%;
@@ -42,54 +48,29 @@ const BarContainer = styled(motion.div)`
 `;
 const Bar = styled(motion.div)`
   background: cyan;
+  background-image: linear-gradient(to right, #00ffff, #00a2ff);
   height: 100%;
   /* box-shadow: 0 0 20px 20px cyan, 0 0 100px 60px #f0f, 0 0 140px 90px #0ff; */
   box-shadow: #f0f 0px 3px 6px;
 `;
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
-export function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
+const IconStyled = styled(motion.svg)`
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5px;
+  position: fixed;
+  overflow: visible;
+`;
 
 function Default() {
   const { scrollY, scrollYProgress } = useViewportScroll();
-  const [pos, setPos] = useState<number>(0);
   const [prog, setProg] = useState<number>(0);
 
   const Nav = () => {
     let no = 0;
-    scrollY.onChange((y) => {
-      // y = scroll position
-      // Do Something
-      setPos(y);
-    });
     scrollYProgress.onChange((y) => {
-      // y = scroll position
-      // Do Something
       setProg(y);
     });
-
     return no;
   };
 
@@ -131,8 +112,28 @@ function Default() {
   const preBar = mod * data.length * 3 - 100;
   const bar = preBar < 0 ? 0 : preBar > 100 ? 100 : preBar;
 
+  const spinBase = baseP % (portion * 2);
+  const spin = spinBase > portion ? portion * 2 - spinBase : spinBase;
+  // const finalSpin = ((spin * data.length) / 100) * 360;
+
+  const pathVariants = {
+    visible: {
+      opacity: 1,
+      pathLength: prog,
+    },
+  };
+
+  const attrs = {
+    initial: "visible",
+    variants: pathVariants,
+  };
+
+  const IconPathStyled = styled(motion.rect).attrs(() => attrs)``;
+
   const translateWidth = (i: any) => {
     const index = i;
+
+    const isEven = i % 2;
 
     const s2 = portion / 3;
     const s3 = s2 * 2;
@@ -146,56 +147,99 @@ function Default() {
 
     const d1 = mod * data.length * 3;
 
+    const phase1 = baseP > a1 && baseP < p2;
+    const phase2 = baseP > p2 && baseP < p3;
+    const phase3 = baseP > p3 && baseP < p1;
+
     if (baseP >= p1) {
-      return "100vw";
+      if (isEven) {
+        return "100";
+      } else {
+        return "-100";
+      }
     }
-    if (baseP > a1 && baseP < p2) {
-      return `${d1 - 100}vw`;
+    if (phase1) {
+      if (isEven) {
+        return `${d1 - 100}`;
+      } else {
+        return `${100 - d1}`;
+      }
     }
-    if (baseP > p2 && baseP < p3) {
-      return `${0}vw`;
+    if (phase2) {
+      return `${0}`;
     }
-    if (baseP > p3 && baseP < p1) {
-      return `${d1 - 200}vw`;
+    if (phase3) {
+      if (isEven) {
+        return `${d1 - 200}`;
+      } else {
+        return `${200 - d1}`;
+      }
     }
 
-    return "-100vw";
+    if (isEven) {
+      return "-100";
+    } else {
+      return "100";
+    }
   };
-
   return (
-    <div style={{ height: `400vh` }}>
-      <Container className="App">
-        <Content>
-          <motion.img
-            animate={{ rotate: pos }}
+    <>
+      <IconStyled height="100%" width="100%">
+        <defs>
+          <linearGradient id="grd" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00ffff"></stop>
+            <stop offset="100%" stop-color="#00a2ff"></stop>
+          </linearGradient>
+        </defs>
+        <IconPathStyled
+          transition={{
+            default: { duration: 2, ease: "easeInOut" },
+            // fill: { duration: 2, ease: [1, 0, 0.8, 1] }
+          }}
+          width="100%"
+          height="100%"
+          stroke="url(#grd)"
+        />
+      </IconStyled>
+
+      <div style={{ height: `400vh` }}>
+        <Container className="App">
+          <Content>
+            {/* <motion.img
+            animate={{ rotate: finalSpin }}
             src={logo}
             className="App-logo"
             alt="logo"
-          />
-          <p>Hey! The new 'about me' page is currently under development!</p>
-          <p>
-            While i work on that however, scroll to see some fun teasers about
-            me!
-          </p>
+          /> */}
+            {/* <motion.div animate={{opacity: 100}}>
+              <p>
+                Hey! The new 'about me' page is currently under development!
+              </p>
+              <p>
+                While i work on that however, scroll to see some fun teasers
+                about me!
+              </p>
+            </motion.div> */}
 
-          <TextContainer>
-            {data.map((d, i) => (
-              <Text
-                animate={{
-                  x: translateWidth(i),
-                }}
-              >
-                <span>{d.label}</span>
-                <BarContainer>
-                  <Bar animate={{ width: `${bar}%` }} />
-                </BarContainer>
-                <span>{d.description}</span>
-              </Text>
-            ))}
-          </TextContainer>
-        </Content>
-      </Container>
-    </div>
+            <TextContainer>
+              {data.map((d, i) => (
+                <Text
+                  animate={{
+                    x: `${translateWidth(i)}vw`,
+                  }}
+                >
+                  <span>{d.label}</span>
+                  <BarContainer>
+                    <Bar animate={{ width: `${bar}%` }} />
+                  </BarContainer>
+                  <span>{d.description}</span>
+                </Text>
+              ))}
+            </TextContainer>
+          </Content>
+        </Container>
+      </div>
+    </>
   );
 }
 
