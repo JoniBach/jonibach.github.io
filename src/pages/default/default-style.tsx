@@ -22,3 +22,10 @@ export const Content = styled(motion.div)`
   text-align: center;
   width: 100%;
 `;
+
+export const Backgorund = styled(motion.div)`
+  background-image: url(images/background.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+`;

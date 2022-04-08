@@ -6,17 +6,23 @@ import {
   useEffect,
   useState,
 } from "react";
+import content from "./content-data.json";
+
+const { data } = content;
 
 type contentContextType = {
   progress: any;
   translateWidth: any;
+  translateOpacity: any;
   data: any;
   bar: any;
+  active?: any;
 };
 
 const contentContextDefaultValues: contentContextType = {
   progress: undefined,
   translateWidth: undefined,
+  translateOpacity: undefined,
   data: undefined,
   bar: undefined,
 };
@@ -30,31 +36,6 @@ export const useContent = () => useContext(ContentContext);
 type Props = {
   children: ReactNode;
 };
-
-const data = [
-  {
-    label: "Fact 1",
-    description:
-      "I once appeared on Britains Got Tallent...  What was i doing?",
-  },
-  {
-    label: "Fact 2",
-    description: "I have played 3 instraments... What could they be?",
-  },
-  {
-    label: "Fact 3",
-    description:
-      "I have been featured in many exhibitions... What art do I make?",
-  },
-  {
-    label: "Fact 4",
-    description: "I have recenty been interviewed by BBC1... What was it for?",
-  },
-  {
-    label: "Fact 5",
-    description: "I did some work for an F1 team... Which one was it?",
-  },
-];
 
 export function ContentProvider({ children }: Props) {
   const { scrollY, scrollYProgress } = useViewportScroll();
@@ -78,6 +59,8 @@ export function ContentProvider({ children }: Props) {
 
   const preBar = mod * data.length * 3 - 100;
   const bar = preBar < 0 ? 0 : preBar > 100 ? 100 : preBar;
+
+  const active = Math.floor(baseP / portion);
 
   const translateWidth = (i: any) => {
     const index = i;
@@ -132,7 +115,55 @@ export function ContentProvider({ children }: Props) {
     }
   };
 
-  const value = { progress, translateWidth, data, bar };
+  const translateOpacity = (i: any) => {
+    const index = i;
+
+    const isEven = i % 2;
+
+    const s2 = portion / 3;
+    const s3 = s2 * 2;
+
+    const p0 = portion * index;
+    const p1 = p0 + portion;
+    const p2 = p0 + s2;
+    const p3 = p0 + s3;
+
+    const a1 = p1 - portion;
+
+    const d1 = mod * data.length * 3;
+
+    const phase1 = baseP > a1 && baseP < p2;
+    const phase2 = baseP > p2 && baseP < p3;
+    const phase3 = baseP > p3 && baseP < p1;
+
+    if (baseP >= p1) {
+      return 0;
+    }
+    if (phase1) {
+      return 0;
+    }
+    if (phase2) {
+      return bar / 100;
+    }
+    if (phase3) {
+      if (300 - d1 > 50) {
+        return 1;
+      } else {
+        return ((300 - d1) / 100) * 2;
+      }
+    }
+
+    return 0;
+  };
+
+  const value = {
+    progress,
+    translateWidth,
+    data,
+    bar,
+    active,
+    translateOpacity,
+  };
 
   return (
     <>

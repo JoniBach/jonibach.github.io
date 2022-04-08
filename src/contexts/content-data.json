@@ -1,0 +1,73 @@
+{
+    "data": [
+        {
+            "date": "The 90s",
+            "label": "Home",
+            "description": "I was born and raised in the welsh valleys",
+            "img": "https://s0.geograph.org.uk/geophotos/01/57/72/1577260_664f5d10.jpg"
+        },
+        {
+            "date": "The 2000s",
+            "label": "Early Education",
+            "description": "My passion was performing arts"
+        },
+        {
+            "label": "Hobbies",
+            "description": "I was part of several orchestras and ensembles"
+        },
+        {
+            "label": "Other early interests",
+            "description": "I learned to sing dance and act"
+        },
+        {
+            "date": "2015",
+            "label": "University",
+            "description": "I trained as a documentary photographer in Cardiff"
+        },
+        {
+            "label": "Artistic Focus",
+            "description": "I documented religious communities and exhibited in galleries"
+        },
+        {
+            "date": "2018",
+            "label": "The path not taken",
+            "description": "I had an unconditional offer from Goldsmiths Unversity to study Compitational Art"
+        },
+        {
+            "date": "2019",
+            "label": "The path I chose",
+            "description": "I retrained as a software engineer on a bootcamp"
+        },
+        {
+            "label": "Relocation & Rebirth",
+            "description": "I accepted a job offer from Deloitte and relocated to my own flat in Bristol"
+        },
+        {
+            "label": "Learning on the job",
+            "description": "My clients included Dyson and Mclaren F1"
+        },
+        {
+            "label": "Covid hit...",
+            "description": "then year later, Our fixed term contracts dried up. However, I was ready to move on"
+        },
+        {
+            "date": "2020",
+            "label": "In my defence...",
+            "description": "I signed a contract with Raytheon as a full stack developer"
+        },
+        {
+            "date": "2021",
+            "label": "An opertunity i couldn't refuse",
+            "description": "I was offered a position at Cureoscity, an exciting new startup"
+        },
+        {
+            "date": "2022",
+            "label": "Personal development",
+            "description": "More than a year of hard work and responsive feedback lead to good things"
+        },
+        {
+            "label": "Today",
+            "description": "I am still here. I still have much to learn"
+        }
+    ]
+}
