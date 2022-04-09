@@ -6,7 +6,6 @@ interface Props {
 }
 
 const processTone = (tone: number, bound: number) => {
-  console.log(tone, bound);
   if (tone < 0) {
     return 0;
   }
