@@ -5,9 +5,15 @@ type AnimatedTextProps = {
   translateWidth: any;
   data: any;
   bar: any;
+  translateOpacity: any;
 };
 
-function AnimatedText({ translateWidth, data, bar }: AnimatedTextProps) {
+function AnimatedText({
+  translateWidth,
+  translateOpacity,
+  data,
+  bar,
+}: AnimatedTextProps) {
   return (
     <TextContainer>
       <TextContainer>
@@ -16,6 +22,8 @@ function AnimatedText({ translateWidth, data, bar }: AnimatedTextProps) {
             animate={{
               x: `${translateWidth(i)}vw`,
             }}
+            key={`${d.label}-${i}`}
+            opacity={translateOpacity(i)}
           >
             <span>{d.label}</span>
             <ProgressBar bar={bar} />

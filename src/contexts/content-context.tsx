@@ -118,8 +118,6 @@ export function ContentProvider({ children }: Props) {
   const translateOpacity = (i: any) => {
     const index = i;
 
-    const isEven = i % 2;
-
     const s2 = portion / 3;
     const s3 = s2 * 2;
 
@@ -143,7 +141,7 @@ export function ContentProvider({ children }: Props) {
       return 0;
     }
     if (phase2) {
-      return bar / 100;
+      return ((100 - 200 + d1) / 100) * 2;
     }
     if (phase3) {
       if (300 - d1 > 50) {

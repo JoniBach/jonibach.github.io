@@ -7,4 +7,5 @@ export const IconStyled = styled(motion.svg)`
   stroke-width: 5px;
   position: fixed;
   overflow: visible;
+  z-index: 1000;
 `;

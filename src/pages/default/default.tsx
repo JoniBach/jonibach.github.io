@@ -24,6 +24,7 @@ function Default() {
           <Content>
             <AnimatedText
               translateWidth={translateWidth}
+              translateOpacity={translateOpacity}
               data={data}
               bar={bar}
             />

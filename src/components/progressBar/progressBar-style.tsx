@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export const BarContainer = styled(motion.div)`
   width: 100%;
-  height: 10px;
+  height: 5px;
   border-radius: 10px;
   overflow: hidden;
   margin-top: 5px;
