@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useViewportScroll } from "framer-motion";
 import {
   createContext,

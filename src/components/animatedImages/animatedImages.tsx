@@ -1,5 +1,4 @@
 import { Image, ImageContainer } from "./animatedImages-style";
-import ProgressBar from "../progressBar/progressBar";
 import { AnimatePresence } from "framer-motion";
 
 type AnimatedImagesProps = {
